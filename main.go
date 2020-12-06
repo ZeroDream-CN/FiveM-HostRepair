@@ -45,6 +45,7 @@ func main() {
 	mirrorEx := false
 	policyEx := false
 	serverEx := false
+	svliveEx := false
 	
 	// 循环读取每一行内容
 	for _, line := range allLines {
@@ -64,6 +65,10 @@ func main() {
 			log.Println("找到 servers-frontend.fivem.net 的记录，已更新")
 			newHosts += fmt.Sprintf("%s %s\n", serverIp, "servers-frontend.fivem.net")
 			serverEx = true
+		} else if strings.Contains(line, "servers-live.fivem.net") {
+			log.Println("找到 servers-live.fivem.net 的记录，已更新")
+			newHosts += fmt.Sprintf("%s %s\n", serverIp, "servers-live.fivem.net")
+			svliveEx = true
 		} else {
 			newHosts += line + "\n"
 		}
@@ -85,6 +90,10 @@ func main() {
 	if !serverEx {
 		log.Println("未找到 servers-frontend.fivem.net 的记录，已添加")
 		newHosts += fmt.Sprintf("%s %s\n", serverIp, "servers-frontend.fivem.net")
+	}
+	if !svliveEx {
+		log.Println("未找到 servers-live.fivem.net 的记录，已添加")
+		newHosts += fmt.Sprintf("%s %s\n", serverIp, "servers-live.fivem.net")
 	}
 	
 	// 写入到文件中
