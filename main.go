@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"strings"
 	"runtime"
+	"os"
 )
 
 var HttpClient nic.Session
@@ -27,15 +28,16 @@ func main() {
 	}
 	log.Println(fmt.Sprintf("获得服务器 IP：%s", response.Text))
 	
-	// 读取 Hosts 文件
-	hostFile := ""
+	// 设定 Hosts 路径
+	hostPath := ""
 	if runtime.GOOS == "windows" {
-		hostFile = file_get_contents("C:/Windows/System32/drivers/etc/hosts")
+		hostPath = "C:/Windows/System32/drivers/etc/hosts"
 	} else {
-		hostFile = file_get_contents("/etc/hosts")
+		hostPath = "/etc/hosts"
 	}
 	
 	// 解析 Hosts 文件
+	hostFile := file_get_contents(hostPath)
 	allLines := strings.Split(hostFile, "\n")
 	newHosts := ""
 	serverIp := response.Text
@@ -86,11 +88,14 @@ func main() {
 	}
 	
 	// 写入到文件中
-	if file_put_contents("/etc/hosts", newHosts) {
+	if file_put_contents(hostPath, newHosts) {
 		log.Println("Hosts 文件写入成功！")
 	} else {
-		log.Println("Hosts 文件写入失败，可能是因为没有权限，请检查是否是管理员身份运行！")
+		log.Println("Hosts 文件写入失败，可能是因为没有权限，请尝试右键使用管理员身份运行！（Linux 系统下使用 sudo 命令）")
 	}
+	
+	fmt.Printf("\n请按任意键退出...")
+    os.Stdin.Read(make([]byte, 1))
 }
 
 // 读文件
