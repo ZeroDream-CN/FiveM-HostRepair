@@ -20,7 +20,7 @@ func main() {
 	// 设置 Logger
 	log.SetFlags(log.Ltime)
 	log.Println("FiveM Host 修复工具 by Akkariin")
-	log.Println("版本 V1.1 - Let's Encrypt IP Fix")
+	log.Println("版本 V1.3 - Let's Encrypt IP Fix")
 	
 	// 设定 Hosts 路径
 	if runtime.GOOS == "windows" {
