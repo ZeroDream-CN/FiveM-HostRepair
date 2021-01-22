@@ -20,6 +20,7 @@ func main() {
 	// 设置 Logger
 	log.SetFlags(log.Ltime)
 	log.Println("FiveM Host 修复工具 by Akkariin")
+	log.Println("版本 V1.1 - Let's Encrypt IP Fix")
 	
 	// 设定 Hosts 路径
 	if runtime.GOOS == "windows" {
@@ -101,7 +102,7 @@ func FixLetsEncrypt() (bool) {
 	
 	// 读取 Hosts 文件
 	hostFile := GetFileData(hostPath)
-	hostFile  = SetHosts(hostFile, "ocsp.int-x3.letsencrypt.org", "23.46.210.176")
+	hostFile  = SetHosts(hostFile, "ocsp.int-x3.letsencrypt.org", "172.247.76.247")
 	
 	return SetFileData(hostPath, hostFile)
 }
