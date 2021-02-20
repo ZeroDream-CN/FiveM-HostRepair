@@ -42,14 +42,20 @@ func main() {
 			} else {
 				log.Println("Let's Encrypt 服务器 Hosts 修复失败！")
 				if runtime.GOOS == "windows" {
-					log.Fatalln("请检查是否用 [右键 -> 以管理员身份运行] 本程序，如果使用管理员权限运行后还是出错，请手动打开 C:/Windows/System32/drivers/etc/ 并右键查看 hosts 文件是否被设置为了只读，如果是请将只读取消然后重试。如果问题持续存在，请联系 QQ 204034。")
+					log.Println("请检查是否用 [右键 -> 以管理员身份运行] 本程序，如果使用管理员权限运行后还是出错，请手动打开 C:/Windows/System32/drivers/etc/ 并右键查看 hosts 文件是否被设置为了只读，如果是请将只读取消然后重试。如果问题持续存在，请联系 QQ 204034。")
 				} else {
-					log.Fatalln("请检查 /etc/hosts 文件是否是只读状态，以及您当前的用户组是否有读写权限，请尝试使用 root 身份执行本操作！")
+					log.Println("请检查 /etc/hosts 文件是否是只读状态，以及您当前的用户组是否有读写权限，请尝试使用 root 身份执行本操作！")
 				}
+				fmt.Printf("\n请按回车键退出...")
+				os.Stdin.Read(make([]byte, 1))
+				log.Fatalln()
 			}
 		} else {
 			log.Println("检测时发生了未知错误")
-			log.Fatalln(err.Error())
+			log.Println(err.Error())
+			fmt.Printf("\n请按回车键退出...")
+			os.Stdin.Read(make([]byte, 1))
+			log.Fatalln()
 		}
 	}
 	
@@ -59,13 +65,19 @@ func main() {
 	if err != nil {
 		// 获取失败
 		log.Println("无法获取服务器 IP，请稍后重试，如问题持续存在请联系 QQ 204034。")
-		log.Fatalln(fmt.Sprintf("错误内容：%s", err.Error()))
+		log.Println(fmt.Sprintf("错误内容：%s", err.Error()))
+		fmt.Printf("\n请按回车键退出...")
+		os.Stdin.Read(make([]byte, 1))
+		log.Fatalln()
 	}
 	
 	err = jsoniter.Unmarshal(response.Bytes, &hostResult)
 	
 	if err != nil {
-		log.Fatalln(fmt.Sprintf("无法解析服务器返回的数据，请稍后重试。服务器返回内容：%s", response.Text))
+		log.Println(fmt.Sprintf("无法解析服务器返回的数据，请稍后重试。服务器返回内容：%s", response.Text))
+		fmt.Printf("\n请按回车键退出...")
+		os.Stdin.Read(make([]byte, 1))
+		log.Fatalln()
 	}
 	
 	log.Println(fmt.Sprintf("获得服务器 IP：%s", hostResult.Ip))
@@ -87,9 +99,9 @@ func main() {
 	} else {
 		log.Println("Hosts 文件写入失败！")
 		if runtime.GOOS == "windows" {
-			log.Fatalln("请检查是否用 [右键 -> 以管理员身份运行] 本程序，如果使用管理员权限运行后还是出错，请手动打开 C:/Windows/System32/drivers/etc/ 并右键查看 hosts 文件是否被设置为了只读，如果是请将只读取消然后重试。如果问题持续存在，请联系 QQ 204034。")
+			log.Println("请检查是否用 [右键 -> 以管理员身份运行] 本程序，如果使用管理员权限运行后还是出错，请手动打开 C:/Windows/System32/drivers/etc/ 并右键查看 hosts 文件是否被设置为了只读，如果是请将只读取消然后重试。如果问题持续存在，请联系 QQ 204034。")
 		} else {
-			log.Fatalln("请检查 /etc/hosts 文件是否是只读状态，以及您当前的用户组是否有读写权限，请尝试使用 root 身份执行本操作！")
+			log.Println("请检查 /etc/hosts 文件是否是只读状态，以及您当前的用户组是否有读写权限，请尝试使用 root 身份执行本操作！")
 		}
 	}
 	
